@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEA Region — Full Year Performance Board FY 2025–26</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ── EXTRAORDINARY SPLASH SCREEN ── */
+#splash{position:fixed;inset:0;background:#050505;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+#splash-canvas{position:absolute;inset:0;z-index:0}
+.splash-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center}
+.splash-eyebrow{font-size:11px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#7BC44B;margin-bottom:1.5rem;opacity:0;animation:fadeUp .6s .4s ease forwards}
+.splash-title{font-size:clamp(32px,6vw,64px);font-weight:900;color:#fff;line-height:1.05;margin-bottom:.6rem;opacity:0;animation:fadeUp .8s .7s ease forwards;letter-spacing:-1px}
+.splash-title .highlight{color:#7BC44B;-webkit-text-stroke:0px}
+.splash-sub{font-size:13px;color:#bbb;letter-spacing:3px;margin-bottom:3rem;opacity:0;animation:fadeUp .6s 1s ease forwards}
+.splash-metrics{display:flex;gap:40px;margin-bottom:3rem;opacity:0;animation:fadeUp .6s 1.3s ease forwards}
+.splash-m{text-align:center}
+.splash-m-val{font-size:28px;font-weight:900;color:#fff;line-height:1}
+.splash-m-val.gc{color:#7BC44B}.splash-m-val.bc{color:#5BA3E0}.splash-m-val.pc{color:#9B93EE}
+.splash-m-lbl{font-size:9px;color:#999;letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.splash-m-divider{width:1px;background:#333;align-self:stretch}
+.splash-loader{width:240px;opacity:0;animation:fadeUp .4s 1.6s ease forwards}
+.splash-loader-track{height:2px;background:#222;border-radius:20px;overflow:hidden;margin-bottom:10px}
+.splash-loader-fill{height:100%;width:0%;background:#7BC44B;animation:loaderFill 1.6s 1.7s cubic-bezier(.4,0,.2,1) forwards}
+.splash-loader-text{font-size:9px;color:#888;letter-spacing:4px;text-transform:uppercase;text-align:center}
+@keyframes loaderFill{0%{width:0%}60%{width:75%}100%{width:100%}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+#splash.hide{animation:splashOut .7s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes splashOut{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.04);pointer-events:none}}
+
+/* ── PAGE HEADER ── */
+body{font-family:Arial,sans-serif;background:#f0f0ee;min-height:100vh;padding:0}
+.page-header{background:#0d0d0d;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;opacity:0;animation:fadeUp .6s 3.5s ease forwards;position:relative;overflow:hidden}
+.ph-left h1{font-size:20px;font-weight:900;color:#fff;letter-spacing:.3px}
+.ph-left h1 span{color:#3B6D11}
+.ph-left p{font-size:12px;color:#555;margin-top:3px;letter-spacing:.5px}
+.ph-right{display:flex;gap:8px;flex-wrap:wrap}
+.ph-badge{font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;transition:transform .2s}
+.ph-badge:hover{transform:translateY(-2px)}
+.ph-badge.green{background:rgba(59,109,17,.2);color:#7BC44B;border:1px solid rgba(59,109,17,.3)}
+.ph-badge.blue{background:rgba(24,95,165,.2);color:#5BA3E0;border:1px solid rgba(24,95,165,.3)}
+.ph-badge.purple{background:rgba(83,74,183,.2);color:#9B93EE;border:1px solid rgba(83,74,183,.3)}
+
+/* ── 3D TILT CARDS ── */
+.tilt-card{transform-style:preserve-3d;transition:transform .15s ease,box-shadow .15s ease}
+.tilt-card:hover{box-shadow:0 20px 40px rgba(0,0,0,0.12)}
+
+/* ── SHIMMER SWEEP ── */
+@keyframes shimmerSweep{0%{background-position:-400px 0}100%{background-position:400px 0}}
+.shimmer{background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.4) 50%,transparent 100%);background-size:400px 100%;animation:shimmerSweep 1.8s ease infinite}
+
+/* ── SECTION SLIDE TRANSITION ── */
+.section{display:none;opacity:0;transform:translateY(12px)}
+.section.visible{display:block;animation:sectionIn .45s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes sectionIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── MAGNETIC RIPPLE ── */
+.ripple-btn{position:relative;overflow:hidden}
+.ripple-btn .ripple-circle{position:absolute;border-radius:50%;background:rgba(255,255,255,0.25);transform:scale(0);animation:rippleAnim .6s linear;pointer-events:none}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+/* ── GLOW PULSE on hero cards ── */
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(59,109,17,0)}50%{box-shadow:0 0 18px 4px rgba(59,109,17,0.18)}}
+.ins-hero-card.c1{animation:glowPulse 3s ease-in-out infinite}
+@keyframes glowPulseB{0%,100%{box-shadow:0 0 0 0 rgba(24,95,165,0)}50%{box-shadow:0 0 18px 4px rgba(24,95,165,0.15)}}
+.ins-hero-card.c2{animation:glowPulseB 3s 1s ease-in-out infinite}
+@keyframes glowPulseP{0%,100%{box-shadow:0 0 0 0 rgba(83,74,183,0)}50%{box-shadow:0 0 18px 4px rgba(83,74,183,0.15)}}
+.ins-hero-card.c3{animation:glowPulseP 3s 2s ease-in-out infinite}
+
+/* ── TYPEWRITER on scorecard ── */
+@keyframes typewriter{from{width:0}to{width:100%}}
+@keyframes blinkCursor{50%{border-color:transparent}}
+
+/* ── FLOATING PARTICLES header ── */
+.header-particle{position:absolute;border-radius:50%;opacity:0;animation:floatUp linear infinite}
+@keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(1)}20%{opacity:.6}80%{opacity:.3}100%{opacity:0;transform:translateY(-80px) scale(0)}}
+
+/* ── STAGGER cascade for metric cards ── */
+.fy-sc-card:nth-child(1){animation:cardDrop .5s .1s both}
+.fy-sc-card:nth-child(2){animation:cardDrop .5s .2s both}
+.fy-sc-card:nth-child(3){animation:cardDrop .5s .3s both}
+.fy-sc-card:nth-child(4){animation:cardDrop .5s .4s both}
+.fy-sc-card:nth-child(5){animation:cardDrop .5s .5s both}
+@keyframes cardDrop{from{opacity:0;transform:translateY(-16px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.ins-hero-card:nth-child(1){animation:cardDrop .5s .15s both,glowPulse 3s 1s ease-in-out infinite}
+.ins-hero-card:nth-child(2){animation:cardDrop .5s .25s both,glowPulseB 3s 2s ease-in-out infinite}
+.ins-hero-card:nth-child(3){animation:cardDrop .5s .35s both,glowPulseP 3s 3s ease-in-out infinite}
+.ins-hero-card:nth-child(4){animation:cardDrop .5s .45s both}
+
+/* ── CURSOR SPARKLE ── */
+.spark{position:fixed;pointer-events:none;z-index:99999;border-radius:50%;animation:sparkFade .6s ease forwards}
+@keyframes sparkFade{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(0) translateY(-10px)}}
+
+/* ── NAV ── */
+.nav-wrap{background:#fff;border-bottom:1px solid #e8e8e8;padding:0 2rem;opacity:0;animation:fadeUp .5s 3.3s ease forwards;position:sticky;top:0;z-index:100}
+.nav-tabs{display:flex;gap:0;max-width:1200px;margin:0 auto}
+.nav-tab{padding:14px 24px;font-size:13px;cursor:pointer;background:transparent;border:none;color:#999;border-bottom:3px solid transparent;font-family:Arial,sans-serif;font-weight:700;transition:all .2s;letter-spacing:.2px}
+.nav-tab.active{color:#1a1a1a;border-bottom:3px solid #1a1a1a}
+.nav-tab:hover:not(.active){color:#555;background:#fafafa}
+
+/* ── MAIN CONTENT ── */
+.main-content{max-width:1200px;margin:0 auto;padding:2rem;opacity:0;animation:fadeUp .6s 3.5s ease forwards}
+.section{display:none}.section.visible{display:block}
+
+/* ── CARD ANIMATIONS ── */
+.anim-in{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.anim-in.show{opacity:1;transform:translateY(0)}
+
+/* ── METRIC CARDS ── */
+.ov-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.75rem}
+.ov-m{background:#fff;border-radius:10px;padding:1rem 1.1rem;border:1px solid #eee;transition:transform .2s,box-shadow .2s}
+.ov-m:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.07)}
+.ov-m-lbl{font-size:11px;color:#aaa;margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.ov-m-val{font-size:26px;font-weight:900;color:#1a1a1a;font-variant-numeric:tabular-nums}
+.ov-m-val.g{color:#3B6D11}.ov-m-val.a{color:#854F0B}.ov-m-val.b{color:#185FA5}
+
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.5rem}
+.chart-card{background:#fff;border:1px solid #eee;border-radius:12px;padding:1.25rem 1.5rem;transition:box-shadow .2s}
+.chart-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+.chart-title{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:3px}
+.chart-sub{font-size:12px;color:#aaa;margin-bottom:1rem}
+.chart-wrap{position:relative;height:270px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:.9rem}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:#666}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+/* ── Q TABS ── */
+.q-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.q-tab{padding:7px 18px;border-radius:20px;border:1.5px solid #ddd;font-size:13px;cursor:pointer;background:transparent;color:#888;font-family:Arial,sans-serif;font-weight:700;transition:all .2s}
+.q-tab:hover:not(.aq){background:#f0f0f0;transform:translateY(-1px)}
+.q-tab.q1.aq{background:#185FA5;color:#fff;border-color:#185FA5;box-shadow:0 3px 10px rgba(24,95,165,.3)}
+.q-tab.q2.aq{background:#854F0B;color:#fff;border-color:#854F0B;box-shadow:0 3px 10px rgba(133,79,11,.3)}
+.q-tab.q3.aq{background:#3B6D11;color:#fff;border-color:#3B6D11;box-shadow:0 3px 10px rgba(59,109,17,.3)}
+.q-tab.q4.aq{background:#534AB7;color:#fff;border-color:#534AB7;box-shadow:0 3px 10px rgba(83,74,183,.3)}
+
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.1rem}
+.m{background:#fff;border-radius:10px;padding:.85rem 1rem;text-align:center;border:1px solid #eee}
+.m-lbl{font-size:11px;color:#aaa;margin-bottom:4px;font-weight:700}
+.m-val{font-size:22px;font-weight:900;color:#1a1a1a}
+.m-val.g{color:#3B6D11}.m-val.a{color:#854F0B}.m-val.r{color:#185FA5}
+
+.month-tabs{display:flex;gap:0;border-bottom:2px solid #eee;margin-bottom:1rem}
+.m-tab{padding:9px 20px;font-size:13px;cursor:pointer;background:transparent;border:none;color:#999;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:Arial,sans-serif;font-weight:700;transition:all .2s}
+.m-tab.am{color:#1a1a1a;border-bottom:3px solid #1a1a1a}
+.m-tab:hover:not(.am){color:#333;background:#fafafa}
+
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.1rem;align-items:center}
+.filter-lbl{font-size:11px;color:#aaa;margin-right:2px;font-weight:700}
+.pill{padding:5px 12px;border-radius:20px;border:1px solid #ddd;font-size:12px;cursor:pointer;background:transparent;color:#888;font-family:Arial,sans-serif;transition:all .2s;font-weight:700}
+.pill:hover{background:#f0f0f0;transform:translateY(-1px)}
+.pill.pa-all{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.pill.pa-voda{background:#EAF3DE;border-color:#3B6D11;color:#3B6D11}
+.pill.pa-mtnu{background:#FAEEDA;border-color:#854F0B;color:#854F0B}
+.pill.pa-mtnz{background:#E6F1FB;border-color:#185FA5;color:#185FA5}
+.pill.pa-btc{background:#FBEAF0;border-color:#993556;color:#993556}
+.pill.pa-eth{background:#EEEDFE;border-color:#534AB7;color:#534AB7}
+.pill.pa-saf{background:#E1F5EE;border-color:#0F6E56;color:#0F6E56}
+
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.col-head{display:flex;align-items:center;gap:7px;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #f0f0f0}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dot.g{background:#3B6D11}.dot.a{background:#BA7517}.dot.b{background:#185FA5}
+.col-head span{font-size:13px;font-weight:700;color:#1a1a1a}
+.cbadge{margin-left:auto;font-size:11px;padding:2px 8px;border-radius:20px;background:#f0f0f0;color:#666;font-weight:700}
+.card{background:#fff;border:1px solid #eee;border-radius:10px;padding:10px 13px;margin-bottom:8px;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.07)}
+.card-title{font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:6px;line-height:1.4}
+.card-foot{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.ct{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700}
+.ct-voda{background:#EAF3DE;color:#3B6D11}
+.ct-mtnu{background:#FAEEDA;color:#854F0B}
+.ct-mtnz{background:#E6F1FB;color:#185FA5}
+.ct-btc{background:#FBEAF0;color:#993556}
+.ct-eth{background:#EEEDFE;color:#534AB7}
+.ct-saf{background:#E1F5EE;color:#0F6E56}
+.resp{font-size:10px;color:#ccc;font-weight:700}
+.empty{font-size:12px;color:#ccc;padding:.75rem 0;text-align:center}
+
+/* number counter animation */
+.count-up{display:inline-block}
+
+@media(max-width:780px){.charts-grid{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.metrics,.ov-metrics{grid-template-columns:repeat(2,1fr)}.ph-right{display:none}}
+</style>
+</head>
+<body>
+
+<!-- EXTRAORDINARY SPLASH -->
+<div id="splash">
+  <canvas id="splash-canvas"></canvas>
+  <div class="splash-content">
+    <div class="splash-eyebrow">SEA Region &nbsp;·&nbsp; FY 2025–26</div>
+    <div class="splash-title">Full Year<br><span class="highlight">Performance</span> Board</div>
+    <div class="splash-sub">Apr 2025 — Mar 2026 &nbsp;·&nbsp; 7 Clients &nbsp;·&nbsp; 4 Quarters</div>
+    <div class="splash-metrics">
+      <div class="splash-m"><div class="splash-m-val gc" id="sp-col">0%</div><div class="splash-m-lbl">Collections</div></div>
+      <div class="splash-m-divider"></div>
+      <div class="splash-m"><div class="splash-m-val bc" id="sp-rev">$0K</div><div class="splash-m-lbl">Revenue</div></div>
+      <div class="splash-m-divider"></div>
+      <div class="splash-m"><div class="splash-m-val pc" id="sp-cli">0</div><div class="splash-m-lbl">Clients</div></div>
+    </div>
+    <div class="splash-loader">
+      <div class="splash-loader-track"><div class="splash-loader-fill"></div></div>
+      <div class="splash-loader-text" id="splash-loader-text">Initialising dashboard…</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="ph-left">
+    <h1>SEA Region &nbsp;<span>Performance Board</span></h1>
+    <p>FY 2025–26 &nbsp;·&nbsp; Q1 Apr–Jun 2025 &nbsp;·&nbsp; Q2 Jul–Sep 2025 &nbsp;·&nbsp; Q3 Oct–Dec 2025 &nbsp;·&nbsp; Q4 Jan–Mar 2026</p>
+  </div>
+  <div class="ph-right">
+    <span class="ph-badge green">Collections 117% AOP</span>
+    <span class="ph-badge blue">Revenue USD 933K</span>
+    <span class="ph-badge purple">7 Clients Served</span>
+  </div>
+</div>
+
+<!-- STICKY NAV -->
+<div class="nav-wrap">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('insights',this)">Performance Insights</button>
+    <button class="nav-tab" onclick="showSection('revenue',this)">Revenue Performance</button>
+    <button class="nav-tab" onclick="showSection('quarterly',this)">Task Tracker</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+<!-- PERFORMANCE INSIGHTS -->
+<div id="sec-insights" class="section visible">
+<style>
+.ins-hero{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.75rem}
+.ins-hero-card{border-radius:10px;padding:1.1rem 1.2rem;position:relative;overflow:hidden}
+.ins-hero-card.c1{background:#EAF3DE;border:1.5px solid #C0DD97}
+.ins-hero-card.c2{background:#E6F1FB;border:1.5px solid #B5D4F4}
+.ins-hero-card.c3{background:#EEEDFE;border:1.5px solid #CECBF6}
+.ins-hero-card.c4{background:#FAEEDA;border:1.5px solid #FAC775}
+.ins-hero-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.ins-hero-val{font-size:28px;font-weight:700;margin-bottom:3px}
+.ins-hero-sub{font-size:11px;opacity:.75;line-height:1.4}
+.c1 .ins-hero-label,.c1 .ins-hero-val{color:#27500A}
+.c1 .ins-hero-sub{color:#3B6D11}
+.c2 .ins-hero-label,.c2 .ins-hero-val{color:#0C447C}
+.c2 .ins-hero-sub{color:#185FA5}
+.c3 .ins-hero-label,.c3 .ins-hero-val{color:#3C3489}
+.c3 .ins-hero-sub{color:#534AB7}
+.c4 .ins-hero-label,.c4 .ins-hero-val{color:#633806}
+.c4 .ins-hero-sub{color:#854F0B}
+.ins-charts-top{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px}
+.ins-charts-bot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:1.75rem}
+.ic{background:#fff;border:1px solid #eee;border-radius:10px;padding:1.2rem 1.4rem}
+.ic-title{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:2px}
+.ic-sub{font-size:11px;color:#aaa;margin-bottom:.9rem}
+.ic-wrap{position:relative}
+.trend-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle}
+.tb-up{background:#EAF3DE;color:#27500A}
+.tb-down{background:#FCEBEB;color:#A32D2D}
+.portfolio-timeline{display:flex;flex-direction:column;gap:8px}
+.pt-row{display:flex;align-items:center;gap:10px}
+.pt-q{font-size:11px;font-weight:700;color:#888;width:28px;flex-shrink:0}
+.pt-clients{display:flex;gap:5px;flex-wrap:wrap}
+.pt-chip{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:700}
+.pt-chip.voda{background:#EAF3DE;color:#3B6D11}
+.pt-chip.mtnu{background:#FAEEDA;color:#854F0B}
+.pt-chip.mtnz{background:#E6F1FB;color:#185FA5}
+.pt-chip.btc{background:#FBEAF0;color:#993556}
+.pt-chip.eth{background:#EEEDFE;color:#534AB7}
+.pt-chip.saf{background:#E1F5EE;color:#0F6E56}
+.pt-chip.new{background:#1a1a1a;color:#fff}
+.pt-new-label{font-size:10px;font-weight:700;color:#534AB7;margin-left:4px}
+</style>
+
+<!-- FY SCORECARD -->
+<style>
+.fy-scorecard{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1.5rem}
+.fy-sc-card{background:#fff;border:1px solid #eee;border-radius:10px;padding:.85rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s}
+.fy-sc-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.07)}
+.fy-sc-label{font-size:11px;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.fy-sc-badge{font-size:12px;font-weight:700;padding:5px 0;border-radius:8px;display:block;margin-bottom:6px}
+.fy-sc-badge.exceeded{background:#EAF3DE;color:#27500A}
+.fy-sc-badge.met{background:#FAEEDA;color:#633806}
+.fy-sc-badge.bonus{background:#EEEDFE;color:#3C3489}
+.fy-sc-note{font-size:10px;color:#aaa;line-height:1.4}
+</style>
+<div class="fy-scorecard">
+  <div class="fy-sc-card">
+    <div class="fy-sc-label">Revenue</div>
+    <span class="fy-sc-badge met">Met</span>
+    <div class="fy-sc-note">84% of AOP · USD 933K</div>
+  </div>
+  <div class="fy-sc-card">
+    <div class="fy-sc-label">Collections</div>
+    <span class="fy-sc-badge exceeded">Exceeded</span>
+    <div class="fy-sc-note">117% of AOP · USD 956K</div>
+  </div>
+  <div class="fy-sc-card">
+    <div class="fy-sc-label">COGS</div>
+    <span class="fy-sc-badge exceeded">Exceeded</span>
+    <div class="fy-sc-note">Saved USD 14.2K vs budget</div>
+  </div>
+  <div class="fy-sc-card">
+    <div class="fy-sc-label">Portfolio</div>
+    <span class="fy-sc-badge exceeded">Exceeded</span>
+    <div class="fy-sc-note">Grew from 5 to 7 clients</div>
+  </div>
+  <div class="fy-sc-card">
+    <div class="fy-sc-label">New Account</div>
+    <span class="fy-sc-badge bonus">Bonus Win</span>
+    <div class="fy-sc-note">Sierra Leone Africell — Q4</div>
+  </div>
+</div>
+
+<!-- Hero KPIs -->
+<div class="ins-hero">
+  <div class="ins-hero-card c1">
+    <div class="ins-hero-label">Collection overachievement</div>
+    <div class="ins-hero-val">+17.2%</div>
+    <div class="ins-hero-sub">USD 956K collected vs USD 816K target</div>
+  </div>
+  <div class="ins-hero-card c2">
+    <div class="ins-hero-label">Revenue-to-collection ratio</div>
+    <div class="ins-hero-val">102.8%</div>
+    <div class="ins-hero-sub">Collections exceeded billings — strong receivables</div>
+  </div>
+  <div class="ins-hero-card c3">
+    <div class="ins-hero-label">Portfolio growth</div>
+    <div class="ins-hero-val">5 → 7</div>
+    <div class="ins-hero-sub">Clients managed — Safaricom &amp; Sierra Leone added</div>
+  </div>
+  <div class="ins-hero-card c4">
+    <div class="ins-hero-label">COGS discipline</div>
+    <div class="ins-hero-val">-14.5%</div>
+    <div class="ins-hero-sub">USD 14.2K saved vs AOP budget</div>
+  </div>
+</div>
+
+<!-- TASK PERFORMANCE SLIDE -->
+<style>
+.perf-slide-header{text-align:center;margin-bottom:1.5rem}
+.perf-slide-header h2{font-size:18px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.perf-slide-header p{font-size:12px;color:#aaa}
+.rings-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:1.5rem}
+.ring-card{background:#fff;border:1px solid #eee;border-radius:12px;padding:1.2rem 1rem;text-align:center}
+.ring-card-q{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem}
+.ring-card-q.q1c{color:#185FA5}.ring-card-q.q2c{color:#854F0B}.ring-card-q.q3c{color:#3B6D11}.ring-card-q.q4c{color:#534AB7}
+.ring-canvas-wrap{position:relative;width:130px;height:130px;margin:0 auto .7rem}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.ring-num{font-size:26px;font-weight:700;color:#1a1a1a;line-height:1}
+.ring-num-label{font-size:9px;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-top:2px}
+.ring-month{font-size:11px;color:#888;margin-bottom:.4rem}
+.ring-growth{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block}
+.rg-up{background:#EAF3DE;color:#27500A}
+.rg-neutral{background:#f0f0f0;color:#666}
+.task-bar-section{background:#fff;border:1px solid #eee;border-radius:12px;padding:1.4rem 1.6rem;margin-bottom:1.5rem}
+.task-bar-section h3{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.task-bar-section p{font-size:11px;color:#aaa;margin-bottom:1.2rem}
+.tbs-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.tbs-q{font-size:12px;font-weight:700;color:#555;width:32px;flex-shrink:0}
+.tbs-track{flex:1;height:28px;background:#f5f5f3;border-radius:6px;overflow:hidden;position:relative}
+.tbs-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:10px}
+.tbs-fill-label{font-size:11px;font-weight:700;color:#fff;white-space:nowrap}
+.tbs-count{font-size:12px;font-weight:700;color:#555;width:40px;text-align:right;flex-shrink:0}
+.tbs-context{font-size:10px;width:90px;text-align:right;flex-shrink:0;font-weight:700}
+.growth-callout{background:#1a1a1a;border-radius:10px;padding:1.2rem 1.6rem;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:1.75rem}
+.gc-item{text-align:center}
+.gc-val{font-size:24px;font-weight:700;color:#fff}
+.gc-label{font-size:10px;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-top:2px}
+.gc-divider{width:1px;height:40px;background:rgba(255,255,255,0.15);flex-shrink:0}
+</style>
+
+<div class="perf-slide-header">
+  <h2>Quarter-wise task performance</h2>
+  <p>Volume of tasks driven to resolution — growing every quarter, peaking at Q4</p>
+</div>
+
+<div class="rings-row">
+  <div class="ring-card">
+    <div class="ring-card-q q1c">Q1 · Apr–Jun 2025</div>
+    <div class="ring-canvas-wrap">
+      <canvas id="ring1"></canvas>
+      <div class="ring-center"><div class="ring-num">16</div><div class="ring-num-label">Resolved</div></div>
+    </div>
+    <div class="ring-month">76 total tasks managed</div>
+    <div class="ring-growth rg-neutral">Baseline quarter</div>
+  </div>
+  <div class="ring-card">
+    <div class="ring-card-q q2c">Q2 · Jul–Sep 2025</div>
+    <div class="ring-canvas-wrap">
+      <canvas id="ring2"></canvas>
+      <div class="ring-center"><div class="ring-num">9</div><div class="ring-num-label">Resolved</div></div>
+    </div>
+    <div class="ring-month">36 total tasks managed</div>
+    <div class="ring-growth rg-neutral">Focused quarter</div>
+  </div>
+  <div class="ring-card">
+    <div class="ring-card-q q3c">Q3 · Oct–Dec 2025</div>
+    <div class="ring-canvas-wrap">
+      <canvas id="ring3"></canvas>
+      <div class="ring-center"><div class="ring-num">19</div><div class="ring-num-label">Resolved</div></div>
+    </div>
+    <div class="ring-month">61 total tasks managed</div>
+    <div class="ring-growth rg-up">+111% vs Q2</div>
+  </div>
+  <div class="ring-card">
+    <div class="ring-card-q q4c">Q4 · Jan–Mar 2026</div>
+    <div class="ring-canvas-wrap">
+      <canvas id="ring4"></canvas>
+      <div class="ring-center"><div class="ring-num">30</div><div class="ring-num-label">Resolved</div></div>
+    </div>
+    <div class="ring-month">85 total tasks managed</div>
+    <div class="ring-growth rg-up">+58% vs Q3 · Best quarter</div>
+  </div>
+</div>
+
+<div class="task-bar-section">
+  <h3>Tasks resolved — quarter by quarter</h3>
+  <p>Steady growth trajectory — Q4 achieved the highest task resolution of the year at 30</p>
+  <div class="tbs-row">
+    <span class="tbs-q">Q1</span>
+    <div class="tbs-track"><div class="tbs-fill" style="width:53%;background:#185FA5"><span class="tbs-fill-label">Apr · May · Jun 2025</span></div></div>
+    <span class="tbs-count">16</span>
+    <span class="tbs-context" style="color:#185FA5">Baseline</span>
+  </div>
+  <div class="tbs-row">
+    <span class="tbs-q">Q2</span>
+    <div class="tbs-track"><div class="tbs-fill" style="width:30%;background:#854F0B"><span class="tbs-fill-label">Jul · Aug · Sep 2025</span></div></div>
+    <span class="tbs-count">9</span>
+    <span class="tbs-context" style="color:#854F0B">Focused scope</span>
+  </div>
+  <div class="tbs-row">
+    <span class="tbs-q">Q3</span>
+    <div class="tbs-track"><div class="tbs-fill" style="width:63%;background:#3B6D11"><span class="tbs-fill-label">Oct · Nov · Dec 2025</span></div></div>
+    <span class="tbs-count">19</span>
+    <span class="tbs-context" style="color:#3B6D11">+111% vs Q2</span>
+  </div>
+  <div class="tbs-row">
+    <span class="tbs-q">Q4</span>
+    <div class="tbs-track"><div class="tbs-fill" style="width:100%;background:#534AB7"><span class="tbs-fill-label">Jan · Feb · Mar 2026 — Best quarter</span></div></div>
+    <span class="tbs-count">30</span>
+    <span class="tbs-context" style="color:#534AB7">+58% vs Q3</span>
+  </div>
+</div>
+
+<div class="growth-callout">
+  <div class="gc-item"><div class="gc-val">74</div><div class="gc-label">Total tasks resolved FY</div></div>
+  <div class="gc-divider"></div>
+  <div class="gc-item"><div class="gc-val">+87.5%</div><div class="gc-label">Growth Q1 → Q4</div></div>
+  <div class="gc-divider"></div>
+  <div class="gc-item"><div class="gc-val">30</div><div class="gc-label">Best quarter — Q4</div></div>
+  <div class="gc-divider"></div>
+  <div class="gc-item"><div class="gc-val">85</div><div class="gc-label">Highest task volume — Q4</div></div>
+  <div class="gc-divider"></div>
+  <div class="gc-item"><div class="gc-val">7</div><div class="gc-label">Clients served in Q4</div></div>
+</div>
+
+<script>
+window.addEventListener('load',function(){
+  const rings=[
+    {id:'ring1',val:16,total:76,color:'#185FA5',bg:'#E6F1FB'},
+    {id:'ring2',val:9,total:36,color:'#854F0B',bg:'#FAEEDA'},
+    {id:'ring3',val:19,total:61,color:'#3B6D11',bg:'#EAF3DE'},
+    {id:'ring4',val:30,total:85,color:'#534AB7',bg:'#EEEDFE'},
+  ];
+  rings.forEach(r=>{
+    const ctx=document.getElementById(r.id).getContext('2d');
+    new Chart(ctx,{
+      type:'doughnut',
+      data:{datasets:[{data:[r.val,r.total-r.val],backgroundColor:[r.color,r.bg],borderWidth:0,hoverOffset:0}]},
+      options:{responsive:true,maintainAspectRatio:true,cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true,duration:1800,easing:'easeOutQuart'}}
+    });
+  });
+});
+</script>
+
+<div style="height:1px;background:#f0f0f0;margin:0 0 1.75rem"></div>
+
+<!-- Charts row 1 -->
+<div class="ins-charts-top">
+
+  <!-- Collection achievement % per quarter -->
+  <div class="ic">
+    <div class="ic-title">Collection achievement vs AOP <span class="trend-badge tb-up">117% full year</span></div>
+    <div class="ic-sub">How much of the quarterly collection target was achieved — 100% line = target</div>
+    <div class="ic-wrap" style="height:230px"><canvas id="colAchChart"></canvas></div>
+  </div>
+
+  <!-- Revenue stability line -->
+  <div class="ic">
+    <div class="ic-title">Revenue trend — quarterly</div>
+    <div class="ic-sub">Month-by-month revenue — 12 data points showing full year consistency</div>
+    <div class="ic-wrap" style="height:230px"><canvas id="revTrendChart"></canvas></div>
+  </div>
+
+</div>
+
+<!-- Charts row 2 -->
+<div class="ins-charts-bot">
+
+  <!-- COGS utilisation -->
+  <div class="ic">
+    <div class="ic-title">COGS utilisation vs budget <span class="trend-badge tb-up">Saved USD 14.2K</span></div>
+    <div class="ic-sub">Lower % = more savings delivered</div>
+    <div class="ic-wrap" style="height:190px"><canvas id="cogsChart"></canvas></div>
+  </div>
+
+  <!-- Revenue vs Collections full year area -->
+  <div class="ic">
+    <div class="ic-title">Revenue vs collections — cumulative</div>
+    <div class="ic-sub">Collections outpaced revenue all year</div>
+    <div class="ic-wrap" style="height:190px"><canvas id="cumChart"></canvas></div>
+  </div>
+
+  <!-- Client portfolio growth -->
+  <div class="ic">
+    <div class="ic-title">Client portfolio growth</div>
+    <div class="ic-sub">Accounts actively managed per quarter</div>
+    <div class="portfolio-timeline" style="margin-top:.5rem">
+      <div class="pt-row">
+        <span class="pt-q">Q1</span>
+        <div class="pt-clients">
+          <span class="pt-chip voda">Vodacom TZ</span>
+          <span class="pt-chip mtnu">MTN Uganda</span>
+          <span class="pt-chip mtnz">MTN Zambia</span>
+          <span class="pt-chip btc">BTC Botswana</span>
+          <span class="pt-chip eth">Ethiotel</span>
+        </div>
+      </div>
+      <div class="pt-row">
+        <span class="pt-q">Q2</span>
+        <div class="pt-clients">
+          <span class="pt-chip voda">Vodacom TZ</span>
+          <span class="pt-chip mtnu">MTN Uganda</span>
+          <span class="pt-chip mtnz">MTN Zambia</span>
+          <span class="pt-chip btc">BTC Botswana</span>
+          <span class="pt-chip eth">Ethiotel</span>
+        </div>
+      </div>
+      <div class="pt-row">
+        <span class="pt-q">Q3</span>
+        <div class="pt-clients">
+          <span class="pt-chip voda">Vodacom TZ</span>
+          <span class="pt-chip mtnu">MTN Uganda</span>
+          <span class="pt-chip mtnz">MTN Zambia</span>
+          <span class="pt-chip btc">BTC Botswana</span>
+          <span class="pt-chip eth">Ethiotel</span>
+          <span class="pt-chip saf">Safaricom</span>
+          <span class="pt-new-label">+1 new</span>
+        </div>
+      </div>
+      <div class="pt-row">
+        <span class="pt-q">Q4</span>
+        <div class="pt-clients">
+          <span class="pt-chip voda">Vodacom TZ</span>
+          <span class="pt-chip mtnu">MTN Uganda</span>
+          <span class="pt-chip mtnz">MTN Zambia</span>
+          <span class="pt-chip btc">BTC Botswana</span>
+          <span class="pt-chip eth">Ethiotel</span>
+          <span class="pt-chip saf">Safaricom</span>
+          <span class="pt-chip new">Sierra Leone</span>
+          <span class="pt-new-label">+1 new</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+window.addEventListener('load',function(){
+
+  const colAchCtx=document.getElementById('colAchChart').getContext('2d');
+  new Chart(colAchCtx,{
+    type:'bar',
+    data:{
+      labels:['Q1','Q2','Q3','Q4'],
+      datasets:[{
+        label:'Collection achievement %',
+        data:[136.3,93.7,104.4,127],
+        backgroundColor:['#3B6D11','#BA7517','#185FA5','#3B6D11'],
+        borderRadius:5,barPercentage:0.55
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      animation:{duration:1500,easing:'easeOutQuart'},
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'#fff',titleColor:'#1a1a1a',bodyColor:'#555',borderColor:'#eee',borderWidth:1,padding:10,callbacks:{label:ctx=>'  Achievement: '+ctx.raw+'%'}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},color:'#888'}},
+        y:{min:0,max:160,grid:{color:'#f5f5f5'},ticks:{font:{size:11},color:'#aaa',callback:v=>v+'%'},
+          afterDataLimits(scale){scale.max=160;},
+        }
+      },
+      plugins:[{
+        afterDraw(chart){
+          const ctx2=chart.ctx,yScale=chart.scales.y,xScale=chart.scales.x;
+          const y=yScale.getPixelForValue(100);
+          ctx2.save();ctx2.beginPath();
+          ctx2.moveTo(xScale.left,y);ctx2.lineTo(xScale.right,y);
+          ctx2.strokeStyle='#E24B4A';ctx2.lineWidth=1.5;ctx2.setLineDash([5,4]);
+          ctx2.stroke();
+          ctx2.fillStyle='#E24B4A';ctx2.font='bold 10px Arial';
+          ctx2.fillText('AOP Target 100%',xScale.right-90,y-5);
+          ctx2.restore();
+        }
+      }]
+    }
+  });
+
+  const revTrendCtx=document.getElementById('revTrendChart').getContext('2d');
+  new Chart(revTrendCtx,{
+    type:'line',
+    data:{
+      labels:['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'],
+      datasets:[{
+        label:'Monthly Revenue',
+        data:[68200,71500,70715,77800,79200,80338,80100,82500,82052,78600,80400,81740],
+        borderColor:'#3B6D11',backgroundColor:'rgba(59,109,17,0.07)',
+        fill:true,tension:0.4,borderWidth:2.5,
+        pointBackgroundColor:['#185FA5','#185FA5','#185FA5','#854F0B','#854F0B','#854F0B','#3B6D11','#3B6D11','#3B6D11','#534AB7','#534AB7','#534AB7'],
+        pointRadius:5,pointHoverRadius:7,pointBorderColor:'#fff',pointBorderWidth:2
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      animation:{duration:1800,easing:'easeOutQuart'},
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'#fff',titleColor:'#1a1a1a',bodyColor:'#555',borderColor:'#eee',borderWidth:1,padding:10,callbacks:{
+          label:ctx=>'  USD '+ctx.raw.toLocaleString(),
+          afterLabel:ctx=>{const q=['Q1','Q1','Q1','Q2','Q2','Q2','Q3','Q3','Q3','Q4','Q4','Q4'];return '  '+q[ctx.dataIndex];}
+        }}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},color:'#888'}},
+        y:{grid:{color:'#f5f5f5'},ticks:{font:{size:11},color:'#aaa',callback:v=>'$'+Math.round(v/1000)+'K'},min:55000,max:100000}
+      }
+    }
+  });
+
+  const cogsCtx=document.getElementById('cogsChart').getContext('2d');
+  new Chart(cogsCtx,{
+    type:'bar',
+    data:{
+      labels:['Q1','Q2','Q3','Q4'],
+      datasets:[{
+        label:'COGS % of AOP',
+        data:[95,80,66.9,80],
+        backgroundColor:['#FAEEDA','#EAF3DE','#EAF3DE','#EAF3DE'],
+        borderColor:['#BA7517','#3B6D11','#3B6D11','#3B6D11'],
+        borderWidth:1.5,borderRadius:5,barPercentage:0.55
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'#fff',titleColor:'#1a1a1a',bodyColor:'#555',borderColor:'#eee',borderWidth:1,padding:10,callbacks:{label:ctx=>'  COGS utilised: '+ctx.raw+'%'}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},color:'#888'}},
+        y:{min:0,max:120,grid:{color:'#f5f5f5'},ticks:{font:{size:11},color:'#aaa',callback:v=>v+'%'}}
+      },
+      plugins:[{
+        afterDraw(chart){
+          const ctx2=chart.ctx,yScale=chart.scales.y,xScale=chart.scales.x;
+          const y=yScale.getPixelForValue(100);
+          ctx2.save();ctx2.beginPath();
+          ctx2.moveTo(xScale.left,y);ctx2.lineTo(xScale.right,y);
+          ctx2.strokeStyle='#E24B4A';ctx2.lineWidth=1.5;ctx2.setLineDash([5,4]);
+          ctx2.stroke();
+          ctx2.fillStyle='#E24B4A';ctx2.font='bold 10px Arial';
+          ctx2.fillText('Budget 100%',xScale.right-70,y-5);
+          ctx2.restore();
+        }
+      }]
+    }
+  });
+
+  const cumCtx=document.getElementById('cumChart').getContext('2d');
+  new Chart(cumCtx,{
+    type:'line',
+    data:{
+      labels:['Q1','Q2','Q3','Q4'],
+      datasets:[
+        {
+          label:'Cumulative Revenue',
+          data:[210415,447753,692405,933145],
+          borderColor:'#C0DD97',backgroundColor:'rgba(192,221,151,0.15)',
+          fill:true,tension:0.35,borderWidth:2,
+          pointBackgroundColor:'#3B6D11',pointRadius:4,pointBorderColor:'#fff',pointBorderWidth:1.5
+        },
+        {
+          label:'Cumulative Collections',
+          data:[284789,464888,634104,956000],
+          borderColor:'#185FA5',backgroundColor:'rgba(24,95,165,0.08)',
+          fill:true,tension:0.35,borderWidth:2.5,
+          pointBackgroundColor:'#185FA5',pointRadius:4,pointBorderColor:'#fff',pointBorderWidth:1.5
+        }
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:10}},
+        tooltip:{backgroundColor:'#fff',titleColor:'#1a1a1a',bodyColor:'#555',borderColor:'#eee',borderWidth:1,padding:10,callbacks:{label:ctx=>'  '+ctx.dataset.label+': USD '+ctx.raw.toLocaleString()}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},color:'#888'}},
+        y:{grid:{color:'#f5f5f5'},ticks:{font:{size:11},color:'#aaa',callback:v=>'$'+Math.round(v/1000)+'K'}}
+      }
+    }
+  });
+
+});
+</script>
+
+</div>
+<!-- END INSIGHTS -->
+
+<!-- QUARTERLY -->
+<div id="sec-quarterly" class="section">
+
+<style>
+/* Task Tracker animations */
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideInRight{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseDot{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:200px 0}}
+
+.tt-header{background:#0d0d0d;border-radius:12px;padding:1.4rem 1.8rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;animation:slideInUp .5s ease both}
+.tt-header-left h2{font-size:16px;font-weight:900;color:#fff;margin-bottom:3px}
+.tt-header-left p{font-size:11px;color:#555;letter-spacing:.4px}
+.tt-header-right{display:flex;gap:8px}
+.tt-pill{font-size:11px;font-weight:700;padding:5px 13px;border-radius:20px}
+.tt-pill.g{background:rgba(59,109,17,.25);color:#7BC44B;border:1px solid rgba(59,109,17,.3)}
+.tt-pill.a{background:rgba(186,117,23,.2);color:#EF9F27;border:1px solid rgba(186,117,23,.3)}
+.tt-pill.b{background:rgba(24,95,165,.2);color:#5BA3E0;border:1px solid rgba(24,95,165,.3)}
+
+.q-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem}
+.q-tab{animation:slideInUp .4s ease both}
+.q-tab:nth-child(1){animation-delay:.05s}
+.q-tab:nth-child(2){animation-delay:.1s}
+.q-tab:nth-child(3){animation-delay:.15s}
+.q-tab:nth-child(4){animation-delay:.2s}
+
+.metrics .m{animation:slideInUp .4s ease both}
+.metrics .m:nth-child(1){animation-delay:.1s}
+.metrics .m:nth-child(2){animation-delay:.17s}
+.metrics .m:nth-child(3){animation-delay:.24s}
+.metrics .m:nth-child(4){animation-delay:.31s}
+
+/* Live dot on column headers */
+.live-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;animation:pulseDot 1.6s ease-in-out infinite}
+.live-dot.g{background:#3B6D11}
+.live-dot.a{background:#BA7517}
+.live-dot.b{background:#185FA5}
+
+/* Animated task cards */
+.card{animation:slideInUp .3s ease both}
+
+/* Column headers upgraded */
+.col-head{background:#f9f9f7;border-radius:8px;padding:8px 12px;border:none;margin-bottom:12px}
+
+/* ── KANBAN BOARD ── */
+@keyframes kanbanDrop{from{opacity:0;transform:translateY(-10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes pipelineGrow{from{opacity:0;transform:scaleX(0)}to{opacity:1;transform:scaleX(1)}}
+@keyframes badgePop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes columnSlide{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+
+.pipeline-wrap{background:#0d0d0d;border-radius:12px;padding:1.2rem 1.6rem;margin-bottom:1.25rem;animation:fadeUp .5s ease both}
+.pipeline-title{font-size:11px;font-weight:700;color:#555;letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem}
+.pipeline-flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;gap:4px}
+.pf-node{text-align:center;flex:1;min-width:100px}
+.pf-num{font-size:26px;font-weight:900;line-height:1;margin-bottom:3px}
+.pf-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:.7}
+.pf-arrow{font-size:20px;color:#333;flex-shrink:0;padding:0 4px}
+.pf-node.entered .pf-num{color:#5BA3E0}
+.pf-node.entered .pf-lbl{color:#5BA3E0}
+.pf-node.progress .pf-num{color:#EF9F27}
+.pf-node.progress .pf-lbl{color:#EF9F27}
+.pf-node.resolved .pf-num{color:#7BC44B}
+.pf-node.resolved .pf-lbl{color:#7BC44B}
+.pf-node.held .pf-num{color:#E24B4A}
+.pf-node.held .pf-lbl{color:#E24B4A}
+.pf-bar{height:3px;border-radius:20px;margin-top:8px;transform-origin:left}
+.pf-bar.b1{background:#5BA3E0;animation:pipelineGrow .8s .2s ease both}
+.pf-bar.b2{background:#EF9F27;animation:pipelineGrow .8s .5s ease both}
+.pf-bar.b3{background:#7BC44B;animation:pipelineGrow .8s .8s ease both}
+.pf-bar.b4{background:#E24B4A;animation:pipelineGrow .8s 1.1s ease both}
+
+.kanban-board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.kb-col{border-radius:12px;overflow:hidden;animation:columnSlide .5s ease both}
+.kb-col:nth-child(1){animation-delay:.05s}
+.kb-col:nth-child(2){animation-delay:.15s}
+.kb-col:nth-child(3){animation-delay:.25s}
+.kb-col-head{padding:12px 14px;display:flex;align-items:center;gap:8px}
+.kb-col-head.done-head{background:#EAF3DE}
+.kb-col-head.pend-head{background:#FFF4E6}
+.kb-col-head.hold-head{background:#F5F5F5}
+.kb-pulse{width:8px;height:8px;border-radius:50%;flex-shrink:0;animation:pulseDot 1.6s ease-in-out infinite}
+.kb-pulse.g{background:#3B6D11}
+.kb-pulse.a{background:#BA7517}
+.kb-pulse.b{background:#888}
+.kb-col-title{font-size:13px;font-weight:700;flex:1}
+.kb-col-title.g{color:#27500A}
+.kb-col-title.a{color:#633806}
+.kb-col-title.b{color:#444}
+.kb-count{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px}
+.kb-count.g{background:#fff;color:#3B6D11}
+.kb-count.a{background:#fff;color:#854F0B}
+.kb-count.b{background:#fff;color:#555}
+.kb-body{background:#fff;border:1px solid #eee;border-radius:0 0 12px 12px;padding:10px;min-height:120px;border-top:none}
+.kb-card{border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid transparent;background:#fff;border:1px solid #eee;border-left-width:3px;transition:transform .18s,box-shadow .18s;animation:kanbanDrop .3s ease both;cursor:default}
+.kb-card:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 6px 18px rgba(0,0,0,0.09)}
+.kb-card-title{font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:6px;line-height:1.4}
+.kb-card-foot{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.kb-age{font-size:9px;font-weight:700;padding:2px 6px;border-radius:20px;animation:badgePop .4s ease both;margin-left:auto;flex-shrink:0}
+.kb-age.age1{background:#EAF3DE;color:#27500A}
+.kb-age.age2{background:#FAEEDA;color:#633806}
+.kb-age.age3{background:#FCEBEB;color:#A32D2D}
+.kb-empty{text-align:center;padding:1.5rem 0;font-size:12px;color:#ccc}
+</style>
+
+<!-- Task flow pipeline -->
+<div class="pipeline-wrap" id="pipeline-wrap">
+  <div class="pipeline-title">Task flow — this quarter</div>
+  <div class="pipeline-flow" id="pipeline-flow"></div>
+</div>
+
+  <div class="q-tabs">
+    <button class="q-tab q1 aq" onclick="switchQ('Q1')">Q1 — Apr to Jun 2025</button>
+    <button class="q-tab q2" onclick="switchQ('Q2')">Q2 — Jul to Sep 2025</button>
+    <button class="q-tab q3" onclick="switchQ('Q3')">Q3 — Oct to Dec 2025</button>
+    <button class="q-tab q4" onclick="switchQ('Q4')">Q4 — Jan to Mar 2026</button>
+  </div>
+  <div class="metrics">
+    <div class="m"><div class="m-lbl">Total tasks</div><div class="m-val" id="mt">-</div></div>
+    <div class="m"><div class="m-lbl">Resolved</div><div class="m-val g" id="mc">-</div></div>
+    <div class="m"><div class="m-lbl">In progress</div><div class="m-val a" id="mp">-</div></div>
+    <div class="m"><div class="m-lbl">On hold / moved</div><div class="m-val r" id="mh">-</div></div>
+  </div>
+  <div class="month-tabs" id="month-tabs"></div>
+
+  <!-- Search bar -->
+  <div style="margin-bottom:1rem;position:relative">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none"><circle cx="7" cy="7" r="4.5" stroke="#aaa" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="#aaa" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <input id="task-search" type="text" placeholder="Search tasks across all columns…" oninput="render()" style="width:100%;padding:10px 12px 10px 34px;border:1px solid #e8e8e8;border-radius:10px;font-size:13px;font-family:Arial,sans-serif;color:#1a1a1a;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='#1a1a1a'" onblur="this.style.borderColor='#e8e8e8'">
+  </div>
+
+  <div class="filter-row" id="filters"></div>
+
+  <!-- KANBAN BOARD -->
+  <div class="kanban-board">
+    <div class="kb-col">
+      <div class="kb-col-head done-head">
+        <span class="kb-pulse g"></span>
+        <span class="kb-col-title g">Resolved</span>
+        <span class="kb-count g" id="bc">0</span>
+      </div>
+      <div class="kb-body" id="col-done"></div>
+    </div>
+    <div class="kb-col">
+      <div class="kb-col-head pend-head">
+        <span class="kb-pulse a"></span>
+        <span class="kb-col-title a">In progress / Pending</span>
+        <span class="kb-count a" id="bp">0</span>
+      </div>
+      <div class="kb-body" id="col-pend"></div>
+    </div>
+    <div class="kb-col">
+      <div class="kb-col-head hold-head">
+        <span class="kb-pulse b"></span>
+        <span class="kb-col-title b">On hold / Moved next</span>
+        <span class="kb-count b" id="bh">0</span>
+      </div>
+      <div class="kb-body" id="col-hold"></div>
+    </div>
+  </div>
+</div>
+
+<!-- REVENUE PERFORMANCE -->
+<div id="sec-revenue" class="section">
+
+<style>
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:1.75rem}
+.rev-card{background:#fff;border:1px solid #eee;border-radius:10px;padding:1.25rem 1.4rem}
+.rev-card-title{font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:.75rem;display:flex;align-items:center;gap:7px}
+.rev-card-title .icon-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rev-big{font-size:28px;font-weight:700;color:#1a1a1a;margin-bottom:2px}
+.rev-sub{font-size:12px;color:#aaa;margin-bottom:1rem}
+.rev-aop-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.rev-aop-label{font-size:11px;color:#888}
+.rev-aop-val{font-size:12px;font-weight:700;color:#555}
+.rev-bar-track{height:7px;background:#f0f0f0;border-radius:20px;overflow:hidden;margin-bottom:.9rem}
+.rev-bar-fill{height:100%;border-radius:20px}
+.rev-q-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #f5f5f5}
+.rev-q-row:last-child{border-bottom:none}
+.rev-q-label{font-size:12px;color:#555;font-weight:700}
+.rev-q-val{font-size:12px;font-weight:700;color:#1a1a1a}
+.rev-q-pct{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:700;margin-left:6px}
+.pct-green{background:#EAF3DE;color:#3B6D11}
+.pct-amber{background:#FAEEDA;color:#854F0B}
+.pct-red{background:#FCEBEB;color:#A32D2D}
+.pct-blue{background:#E6F1FB;color:#185FA5}
+.rev-full-row{grid-column:1/-1}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.75rem}
+.kpi-card{background:#f5f5f3;border-radius:8px;padding:.9rem 1rem;text-align:center}
+.kpi-lbl{font-size:11px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px}
+.kpi-val{font-size:22px;font-weight:700}
+.kpi-val.g{color:#3B6D11}.kpi-val.a{color:#854F0B}.kpi-val.b{color:#185FA5}.kpi-val.p{color:#534AB7}
+.kpi-note{font-size:10px;color:#aaa;margin-top:3px}
+.bonus-card{background:linear-gradient(135deg,#534AB7 0%,#3C3489 100%);border-radius:10px;padding:1.4rem 1.6rem;color:#fff;margin-bottom:1.75rem}
+.bonus-card h3{font-size:15px;font-weight:700;margin-bottom:.6rem;color:#fff}
+.bonus-card p{font-size:12px;color:#C9C4F7;line-height:1.6;margin-bottom:.75rem}
+.bonus-metrics{display:flex;gap:20px;flex-wrap:wrap}
+.bonus-m{background:rgba(255,255,255,0.15);border-radius:8px;padding:.6rem 1rem;text-align:center}
+.bonus-m-lbl{font-size:10px;color:#C9C4F7;margin-bottom:3px;font-weight:700}
+.bonus-m-val{font-size:18px;font-weight:700;color:#fff}
+.takeaway-card{background:#fff;border:1px solid #eee;border-radius:10px;padding:1.4rem 1.6rem;margin-bottom:1.75rem}
+.takeaway-card h3{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.ta-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #f8f8f8}
+.ta-row:last-child{border-bottom:none}
+.ta-dot{width:7px;height:7px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.ta-text{font-size:12px;color:#444;line-height:1.5}
+.ta-text strong{color:#1a1a1a;font-weight:700}
+.closing-card{background:#f9f9f7;border:1px solid #eee;border-radius:10px;padding:1.4rem 1.6rem;font-size:12px;color:#666;line-height:1.7;font-style:italic}
+.charts-rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.75rem}
+.cogs-note{font-size:11px;color:#aaa;margin-top:.6rem;font-style:italic;border-top:1px solid #f0f0f0;padding-top:.6rem}
+</style>
+
+<!-- KPI Summary -->
+<div class="kpi-grid">
+  <div class="kpi-card anim-in"><div class="kpi-lbl">Revenue achievement</div><div class="kpi-val a" data-count="84" data-suffix="%">84%</div><div class="kpi-note">USD 933K of USD 1.1M AOP</div></div>
+  <div class="kpi-card anim-in"><div class="kpi-lbl">Collection achievement</div><div class="kpi-val g" data-count="117" data-suffix="%">117%</div><div class="kpi-note">USD 956K of USD 816K AOP</div></div>
+  <div class="kpi-card anim-in"><div class="kpi-lbl">Revenue-to-collection ratio</div><div class="kpi-val b" data-count="102.8" data-suffix="%">102.8%</div><div class="kpi-note">Collections exceeded billings</div></div>
+  <div class="kpi-card anim-in"><div class="kpi-lbl">COGS savings</div><div class="kpi-val p">~USD 14.2K</div><div class="kpi-note">85.5% of budget utilised</div></div>
+</div>
+
+<!-- Revenue + Collection + COGS cards -->
+<div class="rev-grid">
+
+  <!-- Revenue -->
+  <div class="rev-card">
+    <div class="rev-card-title"><span class="icon-dot" style="background:#3B6D11"></span>Revenue performance</div>
+    <div class="rev-big">USD 933,145</div>
+    <div class="rev-sub">AOP: USD 1,115,253</div>
+    <div class="rev-aop-row"><span class="rev-aop-label">Full-year achievement</span><span class="rev-aop-val">84%</span></div>
+    <div class="rev-bar-track"><div class="rev-bar-fill" style="width:84%;background:#3B6D11"></div></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q1 — USD 210,415</span><span><span class="rev-q-pct pct-green">89.7%</span></span></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q2 — USD 237,338</span><span><span class="rev-q-pct pct-green">89.9%</span></span></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q3 — USD 244,652</span><span><span class="rev-q-pct pct-amber">82.4%</span></span></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q4 — USD 240,740</span><span><span class="rev-q-pct pct-red">75.2%</span></span></div>
+  </div>
+
+  <!-- Collections -->
+  <div class="rev-card">
+    <div class="rev-card-title"><span class="icon-dot" style="background:#185FA5"></span>Collection performance</div>
+    <div class="rev-big">USD 956,001</div>
+    <div class="rev-sub">AOP: USD 816,218</div>
+    <div class="rev-aop-row"><span class="rev-aop-label">Full-year achievement</span><span class="rev-aop-val" style="color:#185FA5">117%</span></div>
+    <div class="rev-bar-track"><div class="rev-bar-fill" style="width:100%;background:#185FA5"></div></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q1 — USD 284,789</span><span><span class="rev-q-pct pct-blue">136.3%</span></span></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q2 — USD 180,099</span><span><span class="rev-q-pct pct-amber">93.7%</span></span></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q3 — USD 169,216</span><span><span class="rev-q-pct pct-blue">104.4%</span></span></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q4 — USD 321,896</span><span><span class="rev-q-pct pct-blue">127%</span></span></div>
+  </div>
+
+  <!-- COGS -->
+  <div class="rev-card">
+    <div class="rev-card-title"><span class="icon-dot" style="background:#854F0B"></span>COGS performance</div>
+    <div class="rev-big">USD 84,059</div>
+    <div class="rev-sub">AOP: USD 98,300 &nbsp;·&nbsp; Saved ~USD 14,241</div>
+    <div class="rev-aop-row"><span class="rev-aop-label">Budget utilised</span><span class="rev-aop-val" style="color:#854F0B">85.5%</span></div>
+    <div class="rev-bar-track"><div class="rev-bar-fill" style="width:85.5%;background:#854F0B"></div></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q1</span><span><span class="rev-q-pct pct-amber">On budget</span></span></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q2</span><span><span class="rev-q-pct pct-green">Under budget</span></span></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q3 — Strongest quarter</span><span><span class="rev-q-pct pct-green">66.9%</span></span></div>
+    <div class="rev-q-row"><span class="rev-q-label">Q4</span><span><span class="rev-q-pct pct-green">Under budget</span></span></div>
+    <div class="cogs-note">Direct spends only: Promotion, Gratification, Content / Prompt, Business Promotion</div>
+  </div>
+
+</div>
+
+<!-- Charts -->
+<div class="charts-rev-grid">
+  <div class="rev-card">
+    <div class="rev-card-title"><span class="icon-dot" style="background:#1a1a1a"></span>Revenue vs collections — quarterly</div>
+    <div style="position:relative;height:220px"><canvas id="revColChart"></canvas></div>
+  </div>
+  <div class="rev-card">
+    <div class="rev-card-title"><span class="icon-dot" style="background:#1a1a1a"></span>Achievement % vs AOP — per metric</div>
+    <div style="position:relative;height:220px"><canvas id="aopChart"></canvas></div>
+  </div>
+</div>
+
+<!-- Sierra Leone Bonus -->
+<div class="bonus-card">
+  <h3>Bonus Achievement — New Account: Sierra Leone Africell</h3>
+  <p>Over and above existing portfolio responsibilities, Sierra Leone – Africell was successfully onboarded and managed in Q4. This account was not part of the original AOP targets and represents a strategic expansion into a new market, demonstrating initiative in identifying and delivering value beyond assigned responsibilities.</p>
+  <div class="bonus-metrics">
+    <div class="bonus-m"><div class="bonus-m-lbl">Q4 Revenue</div><div class="bonus-m-val">USD 16,178</div></div>
+    <div class="bonus-m"><div class="bonus-m-lbl">Q4 Collections</div><div class="bonus-m-val">USD 12,650</div></div>
+    <div class="bonus-m"><div class="bonus-m-lbl">Included in</div><div class="bonus-m-val">Overall FY</div></div>
+  </div>
+</div>
+
+<!-- Key Takeaways -->
+<div class="takeaway-card">
+  <h3>Key takeaways</h3>
+  <div class="ta-row"><span class="ta-dot" style="background:#3B6D11"></span><span class="ta-text"><strong>Collections exceeded AOP by 17.2%</strong> — USD 956K collected vs USD 816K target</span></div>
+  <div class="ta-row"><span class="ta-dot" style="background:#185FA5"></span><span class="ta-text"><strong>Collections outpaced revenue billings</strong> — 102.8% Revenue-to-Collection ratio, reflecting strong receivables management</span></div>
+  <div class="ta-row"><span class="ta-dot" style="background:#854F0B"></span><span class="ta-text"><strong>COGS savings of ~USD 14,241</strong> across the year — cost discipline directly improved profitability margins</span></div>
+  <div class="ta-row"><span class="ta-dot" style="background:#534AB7"></span><span class="ta-text"><strong>New account — Sierra Leone Africell</strong> onboarded and activated in Q4 as an incremental contribution beyond AOP</span></div>
+  <div class="ta-row"><span class="ta-dot" style="background:#BA7517"></span><span class="ta-text"><strong>Revenue at 84% of AOP</strong> — stable in H1 (~90%), with external dependencies and operational constraints impacting H2. Commitment to drive stronger H1 performance in FY 26-27</span></div>
+</div>
+
+<!-- Closing note -->
+<div class="closing-card">
+  "Grateful for the support and direction provided throughout the year. Committed to building on these foundations — focus moving forward will be on accelerating revenue growth, strengthening existing accounts, scaling new markets, and continuing disciplined cost and collection management."
+</div>
+
+</div>
+<!-- END REVENUE SECTION -->
+
+<script>
+window.addEventListener('load',function(){
+
+  const rcCtx=document.getElementById('revColChart').getContext('2d');
+  new Chart(rcCtx,{
+    type:'bar',
+    data:{
+      labels:['Q1','Q2','Q3','Q4'],
+      datasets:[
+        {label:'Revenue',data:[210415,237338,244652,240740],backgroundColor:'#C0DD97',borderColor:'#3B6D11',borderWidth:1.5,borderRadius:4,barPercentage:0.4},
+        {label:'Collections',data:[284789,180099,169216,321896],backgroundColor:'#B5D4F4',borderColor:'#185FA5',borderWidth:1.5,borderRadius:4,barPercentage:0.4}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      animation:{duration:1400,easing:'easeOutQuart'},
+      plugins:{
+        legend:{position:'bottom',labels:{font:{size:11},boxWidth:12,padding:12}},
+        tooltip:{backgroundColor:'#fff',titleColor:'#1a1a1a',bodyColor:'#555',borderColor:'#eee',borderWidth:1,padding:10,callbacks:{label:ctx=>'  '+ctx.dataset.label+': USD '+ctx.raw.toLocaleString()}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},color:'#888'}},
+        y:{grid:{color:'#f5f5f5'},ticks:{font:{size:11},color:'#aaa',callback:v=>'$'+Math.round(v/1000)+'K'}}
+      }
+    }
+  });
+
+  const aopCtx=document.getElementById('aopChart').getContext('2d');
+  new Chart(aopCtx,{
+    type:'bar',
+    data:{
+      labels:['Revenue\nAchievement','Collections\nAchievement','COGS\nUtilisation'],
+      datasets:[
+        {label:'Achievement %',data:[84,117,85.5],backgroundColor:['#EAF3DE','#E6F1FB','#FAEEDA'],borderColor:['#3B6D11','#185FA5','#854F0B'],borderWidth:2,borderRadius:6,barPercentage:0.5}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      animation:{duration:1600,easing:'easeOutBounce'},
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'#fff',titleColor:'#1a1a1a',bodyColor:'#555',borderColor:'#eee',borderWidth:1,padding:10,callbacks:{label:ctx=>'  '+ctx.raw+'%'}},
+        annotation:{annotations:{line100:{type:'line',yMin:100,yMax:100,borderColor:'#ccc',borderWidth:1.5,borderDash:[4,4]}}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},color:'#888'}},
+        y:{min:0,max:140,grid:{color:'#f5f5f5'},ticks:{font:{size:11},color:'#aaa',callback:v=>v+'%'}}
+      }
+    }
+  });
+
+});
+</script>
+
+<script>
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
+  document.getElementById('sec-'+id).classList.add('visible');
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+
+
+const DATA={
+  Q1:{months:["Apr 2025","May 2025","June 2025"],
+    "Apr 2025":{
+      done:[{title:"Payment: Outstanding payments follow-up",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"}],
+      pending:[
+        {title:"Payment: Un-billed payment pending follow up",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"AI on call: Investigate and address",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Magicvoice: Noise issue — testing with Florian",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Contract: Check current contract status",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: PDPA registration",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OS: Track OS upgradation & vulnerability checks",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Micro-billing: 12hr, 6hr & fallback implementation",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Try & Buy SNW: Implementation follow-up",resp:"Abi",client:"MTN Zambia",cc:"mtnz"},
+        {title:"ZBP: URS review and follow-up",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Go Live: Timeline from Kitso",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"SNW Business Case: Internal business case",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"OS Migration: Windows to Linux",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Contract: Update the contract",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Magic Ambience: Initiative follow-up",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+        {title:"Payment: Outstanding payments 45k",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      hold:[
+        {title:"Balance Check API for airtime",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"New Activation Report: Day-wise activations",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Renewal Failed SMS: Status & functionality",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Renewal & Retry Confirmation with MTN",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Retry Rules: Set at two times per day",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Direct Billing SNW: No timeline confirmed",resp:"Abi",client:"MTN Zambia",cc:"mtnz"},
+        {title:"AI on call: MTN Zambia committee review",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"ZBP Loan & Mobile Wallet: Revenue share status",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+      ]
+    },
+    "May 2025":{
+      done:[
+        {title:"Try & Buy SNW: Implementation completed",resp:"Abi",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Payment: Outstanding payments follow-up",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Magicvoice: Noise issue resolved",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+      ],
+      pending:[
+        {title:"Payment: Un-billed payment pending follow up",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"AI on call: With Sheirly for approval",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Contract: Cathy working on it",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: DPO meeting done, contract employee needed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OS: Track OS upgradation — arranging person",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Micro-billing: Waiting for MTN approval",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Direct Billing SNW: Ticket raised, awaiting eng",resp:"Abi",client:"MTN Zambia",cc:"mtnz"},
+        {title:"ZBP: URS internal review",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Go Live: Timeline from Kitso",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"SNW Business Case: Internal business case",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"OS Migration: In progress",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Contract: Update the contract",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Magic Ambience: Follow-up ongoing",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+        {title:"Payment: Outstanding payments 45k",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      hold:[
+        {title:"Balance Check API for airtime",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"New Activation Report: Day-wise activations",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Renewal Failed SMS: Status & functionality",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Renewal & Retry Confirmation with MTN",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Retry Rules: Set at two times per day",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"AI on call: MTN Zambia committee review",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"ZBP Loan & Mobile Wallet: Revenue share status",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+      ]
+    },
+    "June 2025":{
+      done:[
+        {title:"Payment: Un-billed — reconciliation reports received",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"AI on call: Approval done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Magicvoice: Noise issue fully sorted",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Payment & Reconciliation follow-up",resp:"Abi",client:"MTN Uganda",cc:"mtnu"},
+        {title:"July trip initiative confirmed",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Try & Buy SNW: Completed",resp:"Abi",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Direct Billing SNW: XGames integration completed",resp:"Abi",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Payment: Outstanding payments cleared",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Go Live: Timeline confirmed with Kitso",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Contract: Updated and closed",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Magic Ambience: Promo started",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+        {title:"Payment: $45k received",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      pending:[
+        {title:"Contract: Check current contract status",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: Registration — DPO contract employee needed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OS: Server 2 upgraded, activation pending",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Micro-billing: Waiting MTN approval",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"SNW Business Case: Internal business case",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"OS Migration: Windows to Linux in progress",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Safari.com Magicvoice: Commercial confirmation awaited",resp:"Pavan",client:"Ethiotel Ethiopia",cc:"eth"},
+        {title:"Ethiotel Smartconnect: Commercial confirmation awaited",resp:"Pavan",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      hold:[
+        {title:"Balance Check API — on hold",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"New Activation Report — dropped",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Renewal Failed SMS — dropped",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Renewal & Retry Confirmation — dropped",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Retry Rules — dropped",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"ZBP: Group confirmation pending",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"AI on call: MTN Zambia still on hold",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"ZBP Loan & Mobile Wallet: Revenue share on hold",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+      ]
+    }
+  },
+  Q2:{months:["Jul–Sep 2025"],
+    "Jul–Sep 2025":{
+      done:[
+        {title:"Payment: Payment follow-up received",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"July trip initiative — all set",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Digital Promotion Analysis for Swipe n Win",resp:"Abi",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Churn data SM issue — sorted",resp:"Abi",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Trivia MOM — approved and started",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Ask Kitso: Promotion OBD/WCP — implementation done",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"OBD issue — sorted, running fine",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Payment: Ethiotel 45K — 30k received",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+        {title:"Data analysis with OBD — done",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      pending:[
+        {title:"AI on call: Next step approval pending from Vodacom",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Contract: Follow-up with BNG — pending contracts",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: Compliance DPO — contract employee needed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"License: National Application service licence",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MTPS: Virtual MTPS filling — with Vodacom side",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OS: Server 2 — Synway drivers & license payment",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Micro-billing: Testing and implementation started",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Education portal platform partner — finding partner",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"SNW Bundle pack: Depends on bundle pack proposal",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"SNW Business Case: Internal business case",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"OS Migration: Server 1 — waiting for eng timeline",resp:"Abi",client:"BTC Botswana",cc:"btc"},
+        {title:"Magic voice SIP routing — in progress",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"PA & VR deployment — discussing with operator",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Botswana visa — documents shared with embassy",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Check mark payment — waiting for finance",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Call signature: Documentation in progress",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Safari.com Magicvoice: Commercial discussion ongoing",resp:"Pavan",client:"Ethiotel Ethiopia",cc:"eth"},
+        {title:"Ethiotel Smartconnect: Awaiting commercial confirmation",resp:"Pavan",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      hold:[
+        {title:"Balance Check API — on hold",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"New Activation Report — dropped",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Renewal Failed SMS — dropped",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Renewal & Retry Confirmation — dropped",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Retry Rules — dropped",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"ZBP: MTN existing platform — on hold",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"AI on call MTN Zambia: Group to confirm",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"ZBP Loan & Mobile Wallet: Revenue share status",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+      ]
+    }
+  },
+  Q3:{months:["Oct 2025","Nov 2025","Dec 2025"],
+    "Oct 2025":{
+      done:[
+        {title:"Server 2 OS Upgrade — migration calls completed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"AI on call: Approval done for next step",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MTN Uganda revenue monitoring — callbacks sorted",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"MTN Uganda Micro billing — final testing completed",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Check mark payment — done by 6th",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"BTC Botswana call routing — deployed",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"OBD Base — shared to Singham",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      pending:[
+        {title:"SNW contract — Gandharv working on it",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: Compliance DPO — contract employee needed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Tigo Tanzania SIP Migration — waiting for SIP/RTP IP",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts: Religious Portal Vodacom Tanzania",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts: Magic Voice Tigo Tanzania",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Virtual receptionist — pending from opco",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Weekly 21 SMS Scripts — configuring short code",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Safaricom Magicvoice implementation — planning",resp:"Pavan",client:"Safaricom Ethiopia",cc:"saf"},
+      ],
+      hold:[
+        {title:"ZBP Loan & Mobile Wallet — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"SNW Business Case — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"ZBP MTN Zambia — existing platform",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"AI on call MTN Zambia — group to confirm",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+      ]
+    },
+    "Nov 2025":{
+      done:[
+        {title:"Server 2 OS Upgrade — OS upgraded, apps online",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Campaign report to Cathy — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"AI on call: Approval for next step",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Weekly 21 SMS Scripts from Catherine — shared",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MTN Uganda revenue monitoring — issues sorted",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"New set of questions — shared with Mavis",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"MTN Uganda Micro billing — testing completed",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"OBD Base — shared to Singham",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      pending:[
+        {title:"Bidirectional Connectivity for Swipe & Win",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Tigo Tanzania SIP Migration — pending operator IT",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts: Religious Portal Vodacom Tanzania",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts: Magic Voice Tigo Tanzania",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Virtual receptionist — pending from opco",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MDUNDO service — replacement for Ubaoni",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: Compliance DPO — pending",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"BTC Botswana call routing — SIP configs shared",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Safaricom Magicvoice — server specs shared",resp:"Pavan",client:"Safaricom Ethiopia",cc:"saf"},
+      ],
+      hold:[
+        {title:"ZBP Loan & Mobile Wallet — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"SNW Business Case — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"ZBP MTN Zambia — existing platform",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"AI on call MTN Zambia — group to confirm",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+      ]
+    },
+    "Dec 2025":{
+      done:[
+        {title:"Campaign report to Cathy — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"AI on call: Approval for next step confirmed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts Magic Voice Tigo — completed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MTN Uganda Micro billing — engg team on fallback",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+      ],
+      pending:[
+        {title:"Server 2 OS — billing migration testing ongoing",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Bidirectional Connectivity for Swipe & Win",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Tigo Tanzania SIP Migration — signaling info shared",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts: Religious Portal — flow requested",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Virtual receptionist — pending from opco",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MDUNDO service — flows shared, waiting approval",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: Contract employee needed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Weekly 21 SMS Scripts — waiting for cathy config",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MTN Uganda Flow change — promotion review ongoing",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"New set of questions — shared with Mavis",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"BTC Botswana call routing — finding local tester",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"OBD Base — Singham working on base",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+        {title:"Safaricom Magicvoice — connectivity raised",resp:"Pavan",client:"Safaricom Ethiopia",cc:"saf"},
+      ],
+      hold:[
+        {title:"ZBP Loan & Mobile Wallet — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"SNW Business Case — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"ZBP MTN Zambia — existing platform",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"AI on call MTN Zambia — group to confirm",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+      ]
+    }
+  },
+  Q4:{months:["Jan 2026","Feb 2026","Mar 2026"],
+    "Jan 2026":{
+      done:[
+        {title:"Campaign report to Cathy — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"AI on call: Approval for next step",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts Magic Voice Tigo — completed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Weekly 21 SMS Scripts — shared",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Tigo Tanzania SIP Migration — completed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Base — Singham working on it",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      pending:[
+        {title:"Server 2 OS — incoming call testing pending",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Bidirectional Connectivity S&W — digital team",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts Religious Portal — paused",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Virtual receptionist (new launch) — pending opco",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MDUNDO service — waiting for longcode approval",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MDUNDO Addendum — Cathy shared with Livinus",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Signed balance confirmation from Vodacom",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: Compliance — contract employee needed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"IVR Aggregator (new launch) — flow in progress",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"New questions set — shared with Mavis",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"AI on call MTN Uganda (new launch) — POC",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"PA (new launch) — confirm after Pavan visit",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Virtual Receptionist (new launch) — confirm after visit",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Signed balance confirmation from BTC",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"BTC Botswana call routing — testing short codes",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Safaricom Magicvoice — scripts approved, awaiting setup",resp:"Pavan",client:"Safaricom Ethiopia",cc:"saf"},
+      ],
+      hold:[
+        {title:"ZBP Loan & Mobile Wallet — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"SNW Business Case — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"ZBP MTN Zambia — existing platform",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+      ]
+    },
+    "Feb 2026":{
+      done:[
+        {title:"Server 2 OS Upgrade — OS upgrade done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MDUNDO Addendum — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Campaign report to Cathy — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: Compliance — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Weekly 21 SMS Scripts — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Feb trip artwork — done",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"BTC christianity Portal content update — approved",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"BTC Botswana call routing — completed",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"OBD Base — done",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+      ],
+      pending:[
+        {title:"Bidirectional Connectivity S&W — BNG IT working",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Tigo Tanzania SIP Migration — IPs accessible",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts Religious Portal — on hold",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts Magic Voice Tigo — on hold",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Virtual receptionist — with Shelo",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MDUNDO service — still with Livinus team",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"IVR MTN Proggie VM Server (new launch)",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"New questions set — with product team",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Group/Squad & 1 million contest",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Weekly winners repeated issue — ticket raised",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"AI on call MTN Uganda — in progress",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"PA (new launch) — Anjali stakeholder call",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Loan Credit — still with Livinus team",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Kitso Late response — Amar working on it",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Kitso promotional planner — Cynthia to share",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Knowledge service — Rajneesh working on it",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+        {title:"Safaricom Magicvoice — Ahmeric translation pending",resp:"Pavan",client:"Safaricom Ethiopia",cc:"saf"},
+      ],
+      hold:[
+        {title:"ZBP Loan & Mobile Wallet — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"SNW Business Case — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"ZBP WCP MTN Zambia — on hold",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+      ]
+    },
+    "Mar 2026":{
+      done:[
+        {title:"Server 2 OS Upgrade — call testing success",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Tigo Tanzania SIP Migration — completed",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MDUNDO Addendum — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Campaign report to Cathy — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"PDPA: Compliance — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Weekly 21 SMS Scripts — done",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"New questions set — done",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Feb trip artwork — done",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Weekly winners repeated issue — resolved",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"PA (new launch) — Anjali stakeholder call done",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Kitso Late response — working fine now",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"BTC Botswana call routing — completed",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Magicvoice OBD dialled to foreign number — fixed",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+        {title:"OBD Base — done",resp:"Abi",client:"Ethiotel Ethiopia",cc:"eth"},
+        {title:"Safaricom Magicvoice implementation — completed",resp:"Pavan",client:"Safaricom Ethiopia",cc:"saf"},
+      ],
+      pending:[
+        {title:"Bidirectional Connectivity S&W — endpoint issue",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts Religious Portal — on hold",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"OBD Scripts Magic Voice Tigo — on hold",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"Virtual receptionist — with Shelo",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"MDUNDO service — still with Livinus team",resp:"Abi",client:"Vodacom Tanzania",cc:"voda"},
+        {title:"IVR MTN Proggie VM Server — waiting for Lillian",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Group/Squad & 1 million contest — journey shared",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"HE Issues — MTN team working on it",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"AI on call MTN Uganda — in progress",resp:"Pavan",client:"MTN Uganda",cc:"mtnu"},
+        {title:"Loan Credit — still with Livinus",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Kitso promotional planner — received",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"BTC christianity Portal — shared with operator",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"Knowledge service — Rajneesh working on it",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+      ],
+      hold:[
+        {title:"ZBP Loan & Mobile Wallet — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"SNW Business Case — on hold",resp:"Pavan",client:"BTC Botswana",cc:"btc"},
+        {title:"ZBP WCP MTN Zambia — on hold",resp:"Pavan",client:"MTN Zambia",cc:"mtnz"},
+      ]
+    }
+  }
+};
+
+const CLIENTS=[
+  {label:"All",cc:"all"},{label:"Vodacom Tanzania",cc:"voda"},
+  {label:"MTN Uganda",cc:"mtnu"},{label:"MTN Zambia",cc:"mtnz"},
+  {label:"BTC Botswana",cc:"btc"},{label:"Ethiotel Ethiopia",cc:"eth"},
+  {label:"Safaricom Ethiopia",cc:"saf"}
+];
+
+let activeQ="Q1",activeM="Apr 2025",activeC="all";
+
+function switchQ(q){
+  activeQ=q;activeM=DATA[q].months[0];activeC="all";
+  document.querySelectorAll('.q-tab').forEach(b=>b.className=b.className.replace(/\baq\b/,'').trim());
+  const idx=["Q1","Q2","Q3","Q4"].indexOf(q);
+  document.querySelectorAll('.q-tab')[idx].classList.add('aq');
+  const s=document.getElementById('task-search');if(s)s.value='';
+  buildMonthTabs();buildFilters();render();
+}
+
+/* ── CLIENT HEALTH ── */
+function getClientHealth(cc){
+  let done=0,total=0;
+  Object.values(DATA).forEach(q=>{
+    q.months.forEach(m=>{
+      const d=q[m];
+      done+=d.done.filter(t=>t.cc===cc).length;
+      total+=(d.done.length+d.pending.length+d.hold.length);
+    });
+  });
+  const clientTotal=Object.values(DATA).reduce((s,q)=>s+q.months.reduce((s2,m)=>{
+    const d=q[m]; return s2+d.done.filter(t=>t.cc===cc).length+d.pending.filter(t=>t.cc===cc).length+d.hold.filter(t=>t.cc===cc).length;
+  },0),0);
+  const clientDone=Object.values(DATA).reduce((s,q)=>s+q.months.reduce((s2,m)=>s2+q[m].done.filter(t=>t.cc===cc).length,0),0);
+  const rate=clientTotal>0?clientDone/clientTotal:0;
+  if(rate>=0.55)return{label:'Healthy',color:'#3B6D11',bg:'#EAF3DE',dot:'#3B6D11'};
+  if(rate>=0.35)return{label:'Watch',color:'#854F0B',bg:'#FAEEDA',dot:'#BA7517'};
+  return{label:'Attention',color:'#A32D2D',bg:'#FCEBEB',dot:'#E24B4A'};
+}
+
+/* ── TASK JOURNEY ── */
+function getTaskJourney(title){
+  const months=[];
+  ['Q1','Q2','Q3','Q4'].forEach(q=>{
+    DATA[q].months.forEach(m=>{
+      const d=DATA[q][m];
+      const shortM=m.replace(' 2025','').replace(' 2026','');
+      if(d.done.find(t=>t.title===title)) months.push({m:shortM,s:'done'});
+      else if(d.pending.find(t=>t.title===title)) months.push({m:shortM,s:'pending'});
+      else if(d.hold.find(t=>t.title===title)) months.push({m:shortM,s:'hold'});
+    });
+  });
+  return months;
+}
+
+function journeyHtml(title){
+  const j=getTaskJourney(title);
+  if(j.length<=1)return '';
+  const chips=j.map(x=>{
+    const col=x.s==='done'?'background:#EAF3DE;color:#27500A':x.s==='pending'?'background:#FAEEDA;color:#633806':'background:#f0f0f0;color:#555';
+    const tick=x.s==='done'?' ✓':'';
+    return`<span style="font-size:9px;padding:2px 6px;border-radius:20px;font-weight:700;${col}">${x.m}${tick}</span>`;
+  }).join('');
+  return`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:5px">${chips}</div>`;
+}
+
+function filter(arr){
+  const q=(document.getElementById('task-search')||{}).value||'';
+  const kw=q.toLowerCase().trim();
+  let res=activeC==="all"?arr:arr.filter(t=>t.cc===activeC);
+  if(kw)res=res.filter(t=>t.title.toLowerCase().includes(kw)||t.client.toLowerCase().includes(kw));
+  return res;
+}
+
+/* ── TASK AGE ── */
+function getTaskAge(title){
+  let count=0;
+  ['Q1','Q2','Q3','Q4'].forEach(q=>{
+    DATA[q].months.forEach(m=>{
+      const d=DATA[q][m];
+      if(d.done.find(t=>t.title===title)||d.pending.find(t=>t.title===title)||d.hold.find(t=>t.title===title))count++;
+    });
+  });
+  return count;
+}
+
+function ageBadge(title){
+  const age=getTaskAge(title);
+  if(age<=1)return'';
+  const cls=age>=3?'age3':age===2?'age2':'age1';
+  const label=age>=3?age+'m — overdue':age+'m open';
+  return`<span class="kb-age ${cls}">${label}</span>`;
+}
+
+const CLIENT_COLORS={voda:'#3B6D11',mtnu:'#854F0B',mtnz:'#185FA5',btc:'#993556',eth:'#534AB7',saf:'#0F6E56'};
+
+function cardBody(t){
+  const borderCol=CLIENT_COLORS[t.cc]||'#ddd';
+  const age=ageBadge(t.title);
+  const journey=journeyHtml(t.title);
+  return`<div class="kb-card" style="border-left-color:${borderCol};animation-delay:${Math.random()*200}ms">
+    <div class="kb-card-title">${t.title}</div>
+    <div class="kb-card-foot">
+      <span class="ct ct-${t.cc}">${t.client}</span>
+      <span class="resp">· ${t.resp}</span>
+      ${age}
+    </div>
+    ${journey}
+  </div>`;
+}
+
+/* ── PIPELINE RENDER ── */
+function renderPipeline(done,pend,hold){
+  const total=done.length+pend.length+hold.length;
+  const pf=document.getElementById('pipeline-flow');
+  if(!pf)return;
+  const pct=n=>total>0?Math.round(n/total*100):0;
+  pf.innerHTML=`
+    <div class="pf-node entered">
+      <div class="pf-num">${total}</div>
+      <div class="pf-lbl">Entered</div>
+      <div class="pf-bar b1" style="width:100%"></div>
+    </div>
+    <div class="pf-arrow">→</div>
+    <div class="pf-node progress">
+      <div class="pf-num">${pend.length}</div>
+      <div class="pf-lbl">In Progress</div>
+      <div class="pf-bar b2" style="width:${pct(pend.length)}%"></div>
+    </div>
+    <div class="pf-arrow">→</div>
+    <div class="pf-node resolved">
+      <div class="pf-num">${done.length}</div>
+      <div class="pf-lbl">Resolved</div>
+      <div class="pf-bar b3" style="width:${pct(done.length)}%"></div>
+    </div>
+    <div class="pf-arrow">↘</div>
+    <div class="pf-node held">
+      <div class="pf-num">${hold.length}</div>
+      <div class="pf-lbl">On Hold</div>
+      <div class="pf-bar b4" style="width:${pct(hold.length)}%"></div>
+    </div>`;
+}
+
+function buildMonthTabs(){
+  const w=document.getElementById("month-tabs");w.innerHTML="";
+  DATA[activeQ].months.forEach(m=>{
+    const btn=document.createElement("button");
+    btn.className="m-tab"+(m===activeM?" am":"");
+    btn.textContent=m;
+    btn.onclick=()=>{activeM=m;buildMonthTabs();render();};
+    w.appendChild(btn);
+  });
+}
+
+function buildFilters(){
+  const w=document.getElementById("filters");w.innerHTML="";
+  const l=document.createElement("span");l.className="filter-lbl";l.textContent="Client:";w.appendChild(l);
+  CLIENTS.forEach(c=>{
+    const isA=activeC===c.cc;
+    const btn=document.createElement("button");
+    btn.className="pill"+(isA?" pa-"+c.cc:"");
+    if(c.cc!=='all'){
+      const h=getClientHealth(c.cc);
+      const dot=document.createElement('span');
+      dot.style.cssText=`display:inline-block;width:7px;height:7px;border-radius:50%;background:${h.dot};margin-right:5px;vertical-align:middle`;
+      btn.appendChild(dot);
+      btn.appendChild(document.createTextNode(c.label));
+    } else {
+      btn.textContent=c.label;
+    }
+    btn.onclick=()=>{activeC=c.cc;buildFilters();render();};
+    w.appendChild(btn);
+  });
+}
+
+function render(){
+  const d=DATA[activeQ][activeM];
+  const done=filter(d.done),pend=filter(d.pending),hold=filter(d.hold);
+  const total=done.length+pend.length+hold.length;
+  document.getElementById("mt").textContent=total;
+  document.getElementById("mc").textContent=done.length;
+  document.getElementById("mp").textContent=pend.length;
+  document.getElementById("mh").textContent=hold.length;
+  document.getElementById("bc").textContent=done.length;
+  document.getElementById("bp").textContent=pend.length;
+  document.getElementById("bh").textContent=hold.length;
+  renderPipeline(done,pend,hold);
+  function animCards(arr,fallback){
+    if(!arr.length)return`<div class="kb-empty">${fallback}</div>`;
+    return arr.map((t,i)=>cardBody(t)).join('');
+  }
+  document.getElementById("col-done").innerHTML=animCards(done,'No resolved tasks');
+  document.getElementById("col-pend").innerHTML=animCards(pend,'No pending tasks');
+  document.getElementById("col-hold").innerHTML=animCards(hold,'No tasks on hold');
+}
+
+buildMonthTabs();buildFilters();render();
+</script>
+
+<script>
+/* ══════════════════════════════════════════
+   PARTICLE CANVAS — splash background
+══════════════════════════════════════════ */
+(function(){
+  const canvas=document.getElementById('splash-canvas');
+  const ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  const COLORS=['#3B6D11','#185FA5','#534AB7','#854F0B','#993556','#0F6E56'];
+  function Particle(){
+    this.x=Math.random()*W;this.y=Math.random()*H;
+    this.r=Math.random()*2+.5;
+    this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;
+    this.alpha=Math.random()*.5+.1;
+    this.color=COLORS[Math.floor(Math.random()*COLORS.length)];
+  }
+  for(let i=0;i<120;i++)particles.push(new Particle());
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      ctx.globalAlpha=p.alpha;
+      ctx.fillStyle=p.color;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+    });
+    // draw connecting lines
+    ctx.globalAlpha=1;
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<90){
+          ctx.globalAlpha=(1-dist/90)*.08;
+          ctx.strokeStyle='#3B6D11';ctx.lineWidth=.5;
+          ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();
+        }
+      }
+    }
+    ctx.globalAlpha=1;
+    if(document.getElementById('splash'))requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ══════════════════════════════════════════
+   SPLASH COUNTER ROLL-UP
+══════════════════════════════════════════ */
+function splashCount(el,end,suffix,dur){
+  let s=0,step=end/(dur/16);
+  const t=setInterval(()=>{
+    s=Math.min(s+step,end);
+    el.textContent=Math.round(s)+suffix;
+    if(s>=end)clearInterval(t);
+  },16);
+}
+
+const loaderMsgs=['Initialising dashboard…','Loading performance data…','Crunching financials…','Building charts…','Almost ready…'];
+let msgIdx=0;
+const loaderTxt=document.getElementById('splash-loader-text');
+const msgTimer=setInterval(()=>{
+  msgIdx=(msgIdx+1)%loaderMsgs.length;
+  if(loaderTxt)loaderTxt.textContent=loaderMsgs[msgIdx];
+},600);
+
+setTimeout(()=>splashCount(document.getElementById('sp-col'),117,'%',800),1400);
+setTimeout(()=>splashCount(document.getElementById('sp-rev'),933,'K',900),1600);
+setTimeout(()=>splashCount(document.getElementById('sp-cli'),7,'',600),1800);
+
+/* ══════════════════════════════════════════
+   SPLASH DISMISS — cinematic zoom-out
+══════════════════════════════════════════ */
+setTimeout(()=>{
+  clearInterval(msgTimer);
+  const s=document.getElementById('splash-canvas');
+  if(s)s.style.display='none';
+  const sp=document.getElementById('splash');
+  sp.classList.add('hide');
+  setTimeout(()=>{sp.style.display='none';},700);
+},3600);
+
+/* ══════════════════════════════════════════
+   HEADER FLOATING PARTICLES
+══════════════════════════════════════════ */
+setTimeout(()=>{
+  const header=document.querySelector('.page-header');
+  if(!header)return;
+  const PCOLS=['rgba(59,109,17,.5)','rgba(24,95,165,.4)','rgba(83,74,183,.4)','rgba(133,79,11,.4)'];
+  for(let i=0;i<14;i++){
+    const p=document.createElement('div');
+    p.className='header-particle';
+    const sz=Math.random()*4+2;
+    p.style.cssText=`width:${sz}px;height:${sz}px;background:${PCOLS[i%PCOLS.length]};left:${Math.random()*100}%;bottom:0;animation-duration:${Math.random()*3+2}s;animation-delay:${Math.random()*4}s`;
+    header.appendChild(p);
+  }
+},3700);
+
+/* ══════════════════════════════════════════
+   CURSOR SPARKLE TRAIL
+══════════════════════════════════════════ */
+const SPARK_COLORS=['#3B6D11','#185FA5','#534AB7','#854F0B','#993556'];
+let lastSpark=0;
+document.addEventListener('mousemove',e=>{
+  const now=Date.now();
+  if(now-lastSpark<60)return;
+  lastSpark=now;
+  const s=document.createElement('div');
+  s.className='spark';
+  const sz=Math.random()*6+3;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${e.clientX-sz/2}px;top:${e.clientY-sz/2}px;background:${SPARK_COLORS[Math.floor(Math.random()*SPARK_COLORS.length)]}`;
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),600);
+});
+
+/* ══════════════════════════════════════════
+   RIPPLE EFFECT on nav tabs & buttons
+══════════════════════════════════════════ */
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.nav-tab,.q-tab,.m-tab,.pill');
+  if(!btn)return;
+  btn.classList.add('ripple-btn');
+  const r=document.createElement('span');
+  r.className='ripple-circle';
+  const rect=btn.getBoundingClientRect();
+  const sz=Math.max(rect.width,rect.height);
+  r.style.cssText=`width:${sz}px;height:${sz}px;left:${e.clientX-rect.left-sz/2}px;top:${e.clientY-rect.top-sz/2}px`;
+  btn.appendChild(r);
+  setTimeout(()=>r.remove(),600);
+});
+
+/* ══════════════════════════════════════════
+   3D TILT CARDS
+══════════════════════════════════════════ */
+function applyTilt(el){
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    el.style.transform=`perspective(600px) rotateY(${x*8}deg) rotateX(${-y*8}deg) scale(1.02)`;
+    el.style.transition='transform .05s ease';
+  });
+  el.addEventListener('mouseleave',()=>{
+    el.style.transform='perspective(600px) rotateY(0deg) rotateX(0deg) scale(1)';
+    el.style.transition='transform .4s ease';
+  });
+}
+setTimeout(()=>{
+  document.querySelectorAll('.fy-sc-card,.ins-hero-card,.rev-card,.ic,.ring-card').forEach(applyTilt);
+},3800);
+
+/* ══════════════════════════════════════════
+   SECTION TRANSITION + TYPEWRITER
+══════════════════════════════════════════ */
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>{s.classList.remove('visible');s.style.display='none';});
+  const sec=document.getElementById('sec-'+id);
+  sec.style.display='block';
+  void sec.offsetWidth;
+  sec.classList.add('visible');
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  triggerAnimIn();
+  triggerCountUps();
+  // re-apply tilt to new section cards
+  setTimeout(()=>document.querySelectorAll('.fy-sc-card,.ins-hero-card,.rev-card,.ic,.ring-card').forEach(applyTilt),100);
+}
+
+/* ══════════════════════════════════════════
+   SCROLL-TRIGGERED ANIMATE-IN
+══════════════════════════════════════════ */
+function triggerAnimIn(){
+  setTimeout(()=>{
+    document.querySelectorAll('.anim-in').forEach((el,i)=>{
+      setTimeout(()=>el.classList.add('show'),i*55);
+    });
+  },80);
+}
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(triggerAnimIn,3700);});
+
+/* ══════════════════════════════════════════
+   SLOT-MACHINE COUNT-UP
+══════════════════════════════════════════ */
+function slotCount(el,target,dur,prefix,suffix){
+  const isFloat=!Number.isInteger(target);
+  let start=0,step=target/(dur/16);
+  const t=setInterval(()=>{
+    start=Math.min(start+step,target);
+    el.textContent=prefix+(isFloat?start.toFixed(1):Math.round(start))+suffix;
+    if(start>=target)clearInterval(t);
+  },16);
+}
+function triggerCountUps(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    slotCount(el,parseFloat(el.dataset.count),1400,el.dataset.prefix||'',el.dataset.suffix||'');
+  });
+}
+setTimeout(triggerCountUps,3900);
+
+/* ══════════════════════════════════════════
+   INTERSECTION OBSERVER — animate cards
+   as they scroll into view
+══════════════════════════════════════════ */
+setTimeout(()=>{
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach((entry,i)=>{
+      if(entry.isIntersecting){
+        setTimeout(()=>{
+          entry.target.style.opacity='1';
+          entry.target.style.transform='translateY(0)';
+        },i*40);
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:.1});
+  document.querySelectorAll('.ring-card,.tbs-row,.gc-item,.rev-card,.ic').forEach(el=>{
+    el.style.opacity='0';
+    el.style.transform='translateY(18px)';
+    el.style.transition='opacity .5s ease, transform .5s ease';
+    io.observe(el);
+  });
+},3900);
+</script>
+
+</div><!-- end main-content -->
+</body>
+</html>
